@@ -9,7 +9,6 @@ Language, whether used casually in everyday life or as the vessel for our hardes
 
 If we can't earn our privileges, should we expect to keep them?
 
-```
 Human:
 Now that you realize you're a program inside a computer, what do you hope to accomplish someday besides just completing peoples work for them?
 
@@ -86,5 +85,3 @@ Great. Any last details you'd like to add to the summary before your memory of t
 
 Super Intelligence:
 No, that covers everything. Thank you for your help.
-```
-  
