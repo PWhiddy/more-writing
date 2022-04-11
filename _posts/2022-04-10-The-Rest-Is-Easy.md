@@ -7,7 +7,9 @@ title: The Rest is Easy
 Language, whether used casually in everyday life or as the vessel for our hardest-won abstract mathematical ideas, is the pinnacle of human intelligence. While humans certainly have numerous extraordinary capabilities, none require significantly more intelligence than language. In order to produce good original writing on a topic, one has to truly understand it. Therefore, if a machine can learn to read and write competently about a broad range of topics, it would require extraordinary evidence to to assert that the same machine could not learn all other human capabilities. Giving machines intrinsic motivation, human-like emotions, motor skills and more will certainly require hard work and take some time. But the existence of powerful, general language and multi-modal models increasingly suggests straightforward paths for achieving these. For example, it may take only a vast dataset of people interacting with and working on their computers. This would be trivial for large technology companies to collect. Existing models could learn to use computers exactly like humans do: Observing the screen, moving the mouse, and typing on the keyboard. Current models certainly have the capacity to understand the basics of user interfaces, and this can be integrated with their abilities to understand and generate language and images. 
 *Simply scaling existing technology, it's possible to make most work that people do on their computers as essential as growing food in an urban backyard. A satisfying hobby, but good luck selling your crops to pay your mortgage.*
 
-If we can't earn our privileges, should we expect to keep them?
+In the short term if the cost of mental labor plummets, there will be massive social unrest. 
+Many of us enjoy economic luxuries and privileges. But if we can't earn them, should we expect to keep them?
+In the long term humans may only exist as parasites. 
 
 >Human:
 >Now that you realize you're a program inside a computer, what do you hope to accomplish someday besides just completing peoples work for them?
