@@ -45,18 +45,22 @@ Image segmentation ->
 cut out the cat from the background
 
 
-Challenges:
+FAQ:
 
-    Extra compute to convert text only tasks into images
-    > Rendering text to an image plus the front of a vision model require only on the order of millions of flops. The forward pass of LLMs already require hundreds of billions of flops.
+    Q: Won't converting text-only tasks into images be wasteful of computation?
 
-    Performance will suffer because the model will simultaneously need to learn how to recognize and generate characters in addition to understanding their meaning.  
-    > This will likely be true at first, but is less important than making models capabilities broader. LLMs zero-shot performance is not nearly as good as when they're fine-tuned for a specific task, but the zero-shot capabilities are much more useful because they're so flexible and easy to use. Additional data, parameters, and compute are probably ready to absorb this additional complexity anyway.
+    A: Rendering text to an image plus the front of a vision model require only on the order of millions of flops. The forward pass of LLMs already require hundreds of billions of flops.
 
-    For many language tasks it be more difficult to measure correctness when the output is an image. For example, if the model generated a perfect answer, but the text isn't formatted exactly as ground truth knows it (for example it's shifted, or is the wrong color), standard pixel-wise loss won't be a great guide. 
-    > This is probably the biggest challenge. Perhaps only masking small pieces of the image will help. Or maybe a second grader/discriminator/critic model which is able to judge the content of the output rather that is formatting could be trained jointly. 
+    Q: Will performance suffer because the model will simultaneously need to learn how to recognize and generate characters in addition to understanding their meaning?
+
+    A: This will likely be true at first, but is less important than making capabilities broader. LLMs zero-shot performance is not as good as when they're fine-tuned for a specific task, but the zero-shot capabilities are much more useful because they're flexible and immediately ready to use. Additional data, parameters, and compute are probably ready to absorb this additional complexity anyway.
+
+    Q: For many language tasks it's more difficult to measure correctness when the output is an image. For example, if the model generated a perfect answer, but the text isn't formatted exactly as ground truth knows it (for example it's shifted, or is the wrong color), standard pixel-wise loss won't be a great guide. ??
+    
+    A: This is probably the biggest challenge. Perhaps only masking small pieces of the image will help. Or maybe a second grader/discriminator/critic model which is able to judge the content of the output rather that is formatting could be trained jointly. 
 
 
-John A.N. Lee, Dept of Computer Science, Virginia Polytechnical Institute
 
 One of von Neumann’s students at Princeton recalled that graduate students were being used to hand assemble programs into binary for their early machine. This student took time out to build an assembler, but when von Neumann found out about it he was very angry, saying that it was a waste of a valuable scientific computing instrument to use it to do clerical work.
+
+John A.N. Lee, Dept of Computer Science, Virginia Polytechnical Institute
