@@ -17,7 +17,7 @@ title: Porting a Particle Sim from Jax to Pyscript (First impressions)
   <body>
     <center>
     
-    <div style="width: 600px">
+    <div>
 
       <h1>Let's simulate some particles!</h1>
       <br>
