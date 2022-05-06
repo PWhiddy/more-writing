@@ -95,7 +95,7 @@ def sim_update_force(parts_pos, parts_vel, t_delta=0.05, scale=5, repel_mag=0.1,
   return p_p, p_v
 
 def draw_sim(parts_pos, parts_vel, grid_r, opacity=1.0, p_size=4.0):
-  canvas = np.zeros((grid_r, grid_r, 3)) + 24/255
+  canvas = np.zeros((grid_r, grid_r, 3)) + 253/255
   # would be interesting to use jax.experimental.loops for these
   for part_p, part_v in zip(parts_pos, parts_vel):
     sp = part_p*grid_r
