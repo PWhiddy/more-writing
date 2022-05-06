@@ -215,7 +215,7 @@ Overall I'm impressed with performance and usability of pyodide and pyscript. Py
 The integration with the web environment is very slick, DOM manipulation and JS interaction is pretty straightforward and this feels like a great option for interactive and graphical python applications.
 Because it's running the regular CPython interpreter, you get  error messages just like you'd normally expect. This means debugging works right away and doesn't require any extra tooling as one might want using compiled languages in wasm. In the case of this particular code however giving up jax's jit and GPU acceleration has made this simulation run quite slow.
 It will be interesting to see if ML frameworks add support for pyodide or new frameworks entirely pop up to take advantage of this. This setup won't be useful to anyone working with large amounts of data or compute obviously, but is a much better fit for lightweight scripts than something like google colab. This page is a single markdown file which embedds html which embeds javascript which embedds python via pyscript. Exciting!
-
+<br>
 ### Bonus
 <br>
 The inverse-square force between two particles is defined by:  
