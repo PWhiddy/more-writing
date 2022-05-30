@@ -210,11 +210,11 @@ _ = await asyncio.gather(
 </html>
 
     
-I've ported my simple [jax particle sim experiment](https://github.com/PWhiddy/jax-experiments/blob/main/nbody.ipynb) to pyscript/numpy! The [code](https://github.com/PWhiddy/more-writing/blob/main/_posts/2022-05-5-Pyscript-Test.md?plain=1) ended up quite ugly and inefficent, but it works!
+I've ported my simple [jax particle sim experiment](https://github.com/PWhiddy/jax-experiments/blob/main/nbody.ipynb) to pyscript/numpy! The [code](https://github.com/PWhiddy/more-writing/blob/main/_posts/2022-05-5-Pyscript-Test.md?plain=1) ended up quite ugly and inefficient, but it works!
 Overall I'm impressed with performance and usability of pyodide and pyscript. Python libraries like numpy that are implemented in C seem to be able to run at full speed via wasm, so out of the box many numerical operations will probably be faster than naive JS.
 The integration with the web environment is very slick, DOM manipulation and JS interaction is pretty straightforward and this feels like a great option for interactive and graphical python applications.
 Because it's running the regular CPython interpreter, you get  error messages just like you'd normally expect. This means debugging works right away and doesn't require any extra tooling as one might want using compiled languages in wasm. In the case of this particular code however giving up jax's jit and GPU acceleration has made this simulation run quite slow.
-It will be interesting to see if ML frameworks add support for pyodide or new frameworks entirely pop up to take advantage of this. This setup won't be useful to anyone working with large amounts of data or compute obviously, but is a much better fit for lightweight scripts than something like google colab. This page is a single markdown file which embedds html which embeds javascript which embedds python via pyscript. Exciting!
+It will be interesting to see if ML frameworks add support for pyodide or new frameworks entirely pop up to take advantage of this. This setup won't be useful to anyone working with large amounts of data or compute obviously, but is a much better fit for lightweight scripts than something like google colab. This page is a single markdown file which embeds html which embeds javascript which embeds python via pyscript. Exciting!
 <br>
 ### Bonus
 <br>
