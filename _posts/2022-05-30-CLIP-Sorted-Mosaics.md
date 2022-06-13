@@ -54,3 +54,8 @@ To be clear, if the goal was simply to extract clusters of shader types, cluster
 The code for creating sorted mosaics like this has been released on github:
 
 [https://github.com/PWhiddy/sp-mosaic](https://github.com/PWhiddy/sp-mosaic)
+
+### UPDATE (6/13/22). 
+I've swapped out PCA with UMAP, here's the result:  
+  
+![umap_grid](https://i.imgur.com/OHsMlpc.jpg)
