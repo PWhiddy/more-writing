@@ -8,7 +8,7 @@ GPUs can crunch numbers orders of magnitudes faster than a CPU. While their orig
 
 ### Why write GPU compute code in an ML framework?  
 #### Flexibility  
-Array abstractions with optimized primitives makes it really fast to prototype and try new ideas.  
+Array abstraction makes it really fast to prototype and try new ideas.  
 For example to create a shader which subtracts one image from another, sum up all the resulting pixels and execute it, simply do:  
 ```python
 (img_a - img_b).sum()
@@ -41,7 +41,7 @@ The secret is sparse arrays + JIT!
 - Sometimes it's tricky to get good performance
 
 ### Alternatives  
-[Taichi](https://github.com/taichi-dev/taichi) is another option with a lot of potential. The backends and real-time support is wonderful, but they are missing the convenience of array programming that numpy and other ML frameworks have. Autodiff support is also not as good (You can get incorrect gradients without warning if you don't follow the correct patterns). Also some features are only supported on certain backends. 
+[Taichi](https://github.com/taichi-dev/taichi) is another option with a lot of potential. The backends and real-time support is wonderful, but they are missing the convenience of array programming that numpy and other ML frameworks have. Autodiff support is also not as good (You can get incorrect gradients without warning if you don't follow the correct patterns). Also some features are only supported on certain backends.   
 Pytorch is nice and even has experimental vulkan backend, but jit/functional code needs more emphasis. Departure from numpy also isn't great.
   
 ### Example
@@ -270,7 +270,7 @@ HTML("""
 ### How can this be run on a GPU backend (ideally non-cuda) that supports real-time rendering?  
 
 Jax uses [XLA](https://www.tensorflow.org/xla) to optimize code and target various backends. It has it's own IR format called "HLO" (High Level Operations). There is a guide for [implementing new backends](https://www.tensorflow.org/xla/developing_new_backend).
-XLA only targets CUDA via LLVM and PTX. This is great but not good enough. Either emulator/translator for PTX (nvidia has an interest that this is difficult to do) or something that can compile XLA's HLO to a highly portable backend like vulkan would be ideal. Not all functions in the HLO IR instruction set are needed. Some example HLO for code similar to above is dumped below. 
+XLA only targets CUDA via LLVM and PTX. This is great but not good enough. Either an emulator/translator for PTX is needed (nvidia has an interest that this is difficult to do) or something that can compile XLA's HLO to a highly portable backend like vulkan would be ideal. Not all functions in the HLO IR instruction set are needed. Some example HLO for code similar to above is dumped below. 
 
 
 ```
