@@ -10,7 +10,7 @@ title: Efficient Sprite Rendering with Jax (Draft)
 - Scalability
 - Portability
 - Ecosystem
-### Why render / rasterize graphics in an ML framework?  
+### Why render / rasterize graphics in an ML framework? Reasons above plus:
 - Simpler than bringing in a whole extra graphics stack
 - Avoids overhead and difficulties of passing GPU memory between different contexts
 - Autodiff comes along for the ride. Differentiable rendering is always on the menu.
