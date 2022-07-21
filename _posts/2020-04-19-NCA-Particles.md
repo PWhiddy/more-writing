@@ -1,7 +1,7 @@
 ---
 layout: post
 mathjax: true
-title: Learning Local Particle System Dynamics with Neural Cellular Automata
+title: Learning Local Particle System Dynamics with Neural Cellular Automata (Draft)
 --- 
 
 Thanks to @anishau, code to train the [particle simulation](http://transdimensional.xyz/projects/neural_ca/index.html) model is available as a [colab notebook](https://colab.research.google.com/drive/1XaNCLrVyp5JYXgP_glWExSUyhbV8OaWb?usp=sharing)
