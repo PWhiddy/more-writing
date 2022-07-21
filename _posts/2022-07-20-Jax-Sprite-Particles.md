@@ -1,10 +1,10 @@
 ---
 layout: post
 mathjax: true
-title: Efficient Sprite Rendering with Jax (Draft)
+title: Efficient Sprite Rendering with Jax
 --- 
 
-GPUs can crunch numbers orders of magnitudes faster than a CPU. While their original use case was only for graphics, their applications now are constantly growing. A set of tools parallel to those used for computer graphics has been developed for high performance linear algebra and differentiable programming, and these tools actually have a number of useful capabilities that extend out of the scope for which they were designed.
+GPUs can crunch numbers orders of magnitudes faster than a CPU. While their original use case was only for graphics, their applications now are constantly growing. A set of tools parallel to those used for computer graphics has been developed for high performance linear algebra and differentiable programming, and these tools actually have a number of useful capabilities that extend out of the scope for which they were designed.  
 
 ### Why write GPU compute code in an ML framework?  
 ##### Flexibility  
