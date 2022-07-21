@@ -4,19 +4,20 @@ mathjax: true
 title: Efficient Sprite Rendering with Jax (Draft)
 --- 
 
+GPUs can crunch numbers orders of magnitudes faster than a CPU. While their original use case was only for graphics, their applications now are constantly growing. A set of tools parallel to those used for computer graphics has been developed for high performance linear algebra and differentiable programming, and these tools actually have a number of useful capabilities that extend out of the scope for which they were designed.
 
-### Why run simulations and render graphics in an ML framework?  
-#### Flexibility  
+### Why write GPU compute code in an ML framework?  
+##### Flexibility  
 Array abstractions with optimized primitives makes it really fast to prototype and try new ideas.  
 For example to create a shader which subtracts one image from another, sum up all the resulting pixels and execute it, simply do:  
 ```python
 (img_a - img_b).sum()
 ```  
-#### Scalability
+##### Scalability
 Use tools which are regularly scaled up to massive clusters with hundreds of GPUs.  
-#### Portability
+##### Portability
 Run the exact same code on CPU or GPU. Super useful for testing and small experiments.
-#### Ecosystem  
+##### Ecosystem  
 The python / numpy / scipy ecosystem is enormous and spans almost every domain of science. Code for just about anything you might want to do is likely on tap.
 
 ### Why render / rasterize graphics in an ML framework? Reasons above plus:
@@ -34,9 +35,16 @@ The python / numpy / scipy ecosystem is enormous and spans almost every domain o
 
 ### How do you render many sprites efficiently? 
 The secret is sparse arrays + JIT!   
-Possible applications...  
+
+### Limitations 
+- NO BACKENDS SUPPORT FOR REAL-TIME RENDERING. This is the huge one. How can we make this happen?
+- Sometimes it's tricky to get good performance
+
+### Alternatives  
+[Taichi](https://github.com/taichi-dev/taichi) is another option with a lot of potential. The backends and real-time support is wonderful, but they are missing the convenience of array programming that numpy and other ML frameworks have. Autodiff support is also not as good (You can get incorrect gradients without warning if you don't follow the correct patterns). Also some features are only supported on certain backends. 
+Pytorch is nice and even has experimental vulkan backend, but jit/functional code needs more emphasis. Departure from numpy also isn't great.
   
-## Example
+### Example
 
 Run this interactive demo on [colab](https://colab.research.google.com/drive/10RCHj4GGBl6lHgF7L9tW9UhBpNhBtrc8?usp=sharing)  
 Notebook is also available on [github](https://github.com/PWhiddy/jax-experiments/blob/main/FastParticleSim.ipynb)  
@@ -180,7 +188,7 @@ def generate_video(
 
   with media.VideoWriter(
       name, (vid_dim, vid_dim), crf=30, fps=45) as vw:
-      
+
     for i in tqdm(range(total_steps)):
       render = fast_scaled_render(
         (p_state * 0.9 + 0.5) * vid_dim,
@@ -233,8 +241,6 @@ HTML("""
 
 
 
-
-
 ```python
 !nvidia-smi
 ```
@@ -261,6 +267,114 @@ HTML("""
 
 
 
-```python
+### How can this be run on a GPU backend (ideally non-cuda) that supports real-time rendering?  
 
+Jax uses [XLA](https://www.tensorflow.org/xla) to optimize code and target various backends. It has it's own IR format called "HLO" (High Level Operations). There is a guide for [implementing new backends](https://www.tensorflow.org/xla/developing_new_backend).
+XLA only targets CUDA via LLVM and PTX. This is great but not good enough. Either emulator/translator for PTX (nvidia has an interest that this is difficult to do) or something that can compile XLA's HLO to a highly portable backend like vulkan would be ideal. Not all functions in the HLO IR instruction set are needed. Some example HLO for code similar to above is dumped below. 
+
+
+```
+HloModule xla_computation_draw_points.130
+
+%region_1.83 (Arg_0.84: f32[], Arg_1.85: f32[]) -> f32[] {
+  %Arg_0.84 = f32[] parameter(0)
+  %Arg_1.85 = f32[] parameter(1)
+  ROOT %add.86 = f32[] add(f32[] %Arg_0.84, f32[] %Arg_1.85)
+}
+
+%input_fused_computation_scatter (param_0.1: pred[4096,16], param_1.3: s16[4096,16,2]) -> f32[64,64] {
+  %constant_7 = f32[] constant(0)
+  %broadcast.11 = f32[64,64] broadcast(f32[] %constant_7), dimensions={}
+  %param_1.3 = s16[4096,16,2] parameter(1)
+  %bitcast.14 = s16[65536,2] bitcast(s16[4096,16,2] %param_1.3)
+  %slice.1 = s16[65536,1] slice(s16[65536,2] %bitcast.14), slice={[0:65536], [0:1]}
+  %bitcast.13 = s16[65536] bitcast(s16[65536,1] %slice.1)
+  %constant_5 = s16[] constant(0)
+  %broadcast.10 = s16[65536] broadcast(s16[] %constant_5), dimensions={}
+  %compare.1 = pred[65536] compare(s16[65536] %bitcast.13, s16[65536] %broadcast.10), direction=LT
+  %constant_3 = s16[] constant(64)
+  %broadcast.9 = s16[65536] broadcast(s16[] %constant_3), dimensions={}
+  %add.1 = s16[65536] add(s16[65536] %bitcast.13, s16[65536] %broadcast.9)
+  %select.3 = s16[65536] select(pred[65536] %compare.1, s16[65536] %add.1, s16[65536] %bitcast.13)
+  %convert.3 = s32[65536] convert(s16[65536] %select.3)
+  %bitcast.12 = s32[65536,1] bitcast(s32[65536] %convert.3)
+  %slice.0 = s16[65536,1] slice(s16[65536,2] %bitcast.14), slice={[0:65536], [1:2]}
+  %bitcast.11 = s16[65536] bitcast(s16[65536,1] %slice.0)
+  %compare.0 = pred[65536] compare(s16[65536] %bitcast.11, s16[65536] %broadcast.10), direction=LT
+  %add.0 = s16[65536] add(s16[65536] %bitcast.11, s16[65536] %broadcast.9)
+  %select.2 = s16[65536] select(pred[65536] %compare.0, s16[65536] %add.0, s16[65536] %bitcast.11)
+  %convert.2 = s32[65536] convert(s16[65536] %select.2)
+  %bitcast.10 = s32[65536,1] bitcast(s32[65536] %convert.2)
+  %concatenate.0 = s32[65536,2] concatenate(s32[65536,1] %bitcast.12, s32[65536,1] %bitcast.10), dimensions={1}
+  %param_0.1 = pred[4096,16] parameter(0)
+  %constant_1 = f32[] constant(1)
+  %broadcast.8 = f32[4096,16] broadcast(f32[] %constant_1), dimensions={}
+  %broadcast.6 = f32[4096,16] broadcast(f32[] %constant_7), dimensions={}
+  %select.1 = f32[4096,16] select(pred[4096,16] %param_0.1, f32[4096,16] %broadcast.8, f32[4096,16] %broadcast.6)
+  %bitcast.9 = f32[65536] bitcast(f32[4096,16] %select.1)
+  ROOT %scatter.0 = f32[64,64] scatter(f32[64,64] %broadcast.11, s32[65536,2] %concatenate.0, f32[65536] %bitcast.9), update_window_dims={}, inserted_window_dims={0,1}, scatter_dims_to_operand_dims={0,1}, index_vector_dim=1, to_apply=%region_1.83
+}
+
+%region_0.52 (Arg_0.53: pred[], Arg_1.54: pred[]) -> pred[] {
+  %Arg_0.53 = pred[] parameter(0)
+  %Arg_1.54 = pred[] parameter(1)
+  ROOT %and.55 = pred[] and(pred[] %Arg_0.53, pred[] %Arg_1.54)
+}
+
+%fused_computation (param_0.16: f32[4096,2]) -> pred[4096,16] {
+  %iota.2 = s32[4] iota(), iota_dimension=0
+  %convert.10 = f32[4] convert(s32[4] %iota.2)
+  %broadcast.39 = f32[4096,4] broadcast(f32[4] %convert.10), dimensions={1}
+  %param_0.16 = f32[4096,2] parameter(0)
+  %slice.7 = f32[4096,1] slice(f32[4096,2] %param_0.16), slice={[0:4096], [0:1]}
+  %bitcast.23 = f32[4096] bitcast(f32[4096,1] %slice.7)
+  %broadcast.36 = f32[4096,4] broadcast(f32[4096] %bitcast.23), dimensions={0}
+  %add.7 = f32[4096,4] add(f32[4096,4] %broadcast.39, f32[4096,4] %broadcast.36)
+  %broadcast.34 = f32[4096,4,4,1] broadcast(f32[4096,4] %add.7), dimensions={0,2}
+  %slice.6 = f32[4096,1] slice(f32[4096,2] %param_0.16), slice={[0:4096], [1:2]}
+  %bitcast.22 = f32[4096] bitcast(f32[4096,1] %slice.6)
+  %broadcast.31 = f32[4096,4] broadcast(f32[4096] %bitcast.22), dimensions={0}
+  %add.6 = f32[4096,4] add(f32[4096,4] %broadcast.39, f32[4096,4] %broadcast.31)
+  %broadcast.29 = f32[4096,4,4,1] broadcast(f32[4096,4] %add.6), dimensions={0,1}
+  %concatenate.3 = f32[4096,4,4,2] concatenate(f32[4096,4,4,1] %broadcast.34, f32[4096,4,4,1] %broadcast.29), dimensions={3}
+  %convert.9 = s16[4096,4,4,2] convert(f32[4096,4,4,2] %concatenate.3)
+  %bitcast.21 = s16[4096,16,2] bitcast(s16[4096,4,4,2] %convert.9)
+  %convert.4 = s32[4096,16,2] convert(s16[4096,16,2] %bitcast.21)
+  %constant_14 = s32[] constant(64)
+  %broadcast.13 = s32[4096,16,2] broadcast(s32[] %constant_14), dimensions={}
+  %compare.2 = pred[4096,16,2] compare(s32[4096,16,2] %convert.4, s32[4096,16,2] %broadcast.13), direction=LT
+  %constant_12 = pred[] constant(true)
+  ROOT %reduce.0 = pred[4096,16] reduce(pred[4096,16,2] %compare.2, pred[] %constant_12), dimensions={2}, to_apply=%region_0.52
+}
+
+%fused_computation.2 (param_0.19: s32[2,1], param_1.25: f32[4096,2]) -> s16[4096,16,2] {
+  %iota.4 = s32[4] iota(), iota_dimension=0
+  %convert.14 = f32[4] convert(s32[4] %iota.4)
+  %broadcast.49 = f32[4096,4] broadcast(f32[4] %convert.14), dimensions={1}
+  %param_1.25 = f32[4096,2] parameter(1)
+  %slice.11 = f32[4096,1] slice(f32[4096,2] %param_1.25), slice={[0:4096], [0:1]}
+  %bitcast.29 = f32[4096] bitcast(f32[4096,1] %slice.11)
+  %broadcast.48 = f32[4096,4] broadcast(f32[4096] %bitcast.29), dimensions={0}
+  %add.11 = f32[4096,4] add(f32[4096,4] %broadcast.49, f32[4096,4] %broadcast.48)
+  %broadcast.47 = f32[4096,4,4,1] broadcast(f32[4096,4] %add.11), dimensions={0,2}
+  %slice.10 = f32[4096,1] slice(f32[4096,2] %param_1.25), slice={[0:4096], [1:2]}
+  %bitcast.28 = f32[4096] bitcast(f32[4096,1] %slice.10)
+  %broadcast.46 = f32[4096,4] broadcast(f32[4096] %bitcast.28), dimensions={0}
+  %add.10 = f32[4096,4] add(f32[4096,4] %broadcast.49, f32[4096,4] %broadcast.46)
+  %broadcast.45 = f32[4096,4,4,1] broadcast(f32[4096,4] %add.10), dimensions={0,1}
+  %concatenate.5 = f32[4096,4,4,2] concatenate(f32[4096,4,4,1] %broadcast.47, f32[4096,4,4,1] %broadcast.45), dimensions={3}
+  %convert.13 = s16[4096,4,4,2] convert(f32[4096,4,4,2] %concatenate.5)
+  %bitcast.27 = s16[4096,16,2] bitcast(s16[4096,4,4,2] %convert.13)
+  %param_0.19 = s32[2,1] parameter(0)
+  ROOT %gather.0 = s16[4096,16,2] gather(s16[4096,16,2] %bitcast.27, s32[2,1] %param_0.19), offset_dims={0,1}, collapsed_slice_dims={2}, start_index_map={2}, index_vector_dim=1, slice_sizes={4096,16,1}
+}
+
+ENTRY %main.89 (Arg_0.1: f32[4096,2]) -> (f32[64,64]) {
+  %Arg_0.1 = f32[4096,2] parameter(0)
+  %fusion = pred[4096,16] fusion(f32[4096,2] %Arg_0.1), kind=kLoop, calls=%fused_computation
+  %constant_9 = s32[2,1] constant({ {0}, {1} })
+  %fusion.2 = s16[4096,16,2] fusion(s32[2,1] %constant_9, f32[4096,2] %Arg_0.1), kind=kLoop, calls=%fused_computation.2
+  %input_fusion_scatter = f32[64,64] fusion(pred[4096,16] %fusion, s16[4096,16,2] %fusion.2), kind=kInput, calls=%input_fused_computation_scatter
+  ROOT %tuple.88 = (f32[64,64]) tuple(f32[64,64] %input_fusion_scatter)
+}
 ```
