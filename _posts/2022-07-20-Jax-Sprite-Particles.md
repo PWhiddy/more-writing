@@ -76,7 +76,7 @@ def draw_single_sprite(pos, sprite, sp_width, sp_height, out_dims):
   return sparse.BCOO((data, indices), shape=out_dims)
 ```
 
-Create an array of these sprites at each posisiton, then trigger them all to rasterized onto a single image array by calling "sum".   
+Create an array of these sprites at each posisiton, then trigger them all to be rasterized onto a single image array by calling "sum".   
 JIT to make it fast.
 
 
