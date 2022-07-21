@@ -33,8 +33,8 @@ The python / numpy / scipy ecosystem is enormous and spans almost every domain o
 - Easy multi-GPU via p/xmap  
 
 ### How do you render many sprites efficiently? 
-The secret is sparse arrays + JIT!  
-Possible applications...
+The secret is sparse arrays + JIT!   
+Possible applications...  
   
 ## Example
 
@@ -74,7 +74,8 @@ JIT to make it fast.
 
 ```python
 def draw_all_sprites(all_pos, all_indices, sprite_sheet, canv_dims):
-  draw_bound = lambda p, sprite: draw_single_sprite(p, sprite, sprite_sheet.shape[1], sprite_sheet.shape[2], canv_dims)
+  draw_bound = lambda p, sprite: draw_single_sprite(
+      p, sprite, sprite_sheet.shape[1], sprite_sheet.shape[2], canv_dims)
   draw_all = vmap(draw_bound, in_axes=(0))
   render = draw_all(all_pos.astype(jnp.int16), sprite_sheet[all_indices]).sum(0)
   return jnp.clip(sparse.todense(render), 0, 255)# .astype(jnp.uint8) # render
@@ -98,7 +99,8 @@ def scaled_render(pos, indices, sprites, dim):
           sprites, 
           (render_res , render_res, 3)
         )
-  return reduce( img, "(h sh) (w sw) c -> h w c", "mean", sh=r_scale, sw=r_scale)
+  return reduce( 
+      img, "(h sh) (w sw) c -> h w c", "mean", sh=r_scale, sw=r_scale)
   
 fast_scaled_render = jit(scaled_render, static_argnums=(3,))
 ```
@@ -123,7 +125,12 @@ JIT into a nice cozy burrito.
 
 
 ```python
-def sim_update_force(parts_pos, parts_vel, t_delta=0.05, scale=5, repel_mag=0.1, center_mag=2.5, steps=10, damp=0.99):
+def sim_update_force(
+    parts_pos, parts_vel, 
+    t_delta=0.05, scale=5, 
+    repel_mag=0.1, center_mag=2.5,
+    steps=10, damp=0.99):
+
   p_p = jnp.array(parts_pos)
   p_v = jnp.array(parts_vel)
   # jax.experimental.loops
@@ -156,16 +163,24 @@ A helper function to run a simulation and render it to a video. Nice default par
 
 ```python
 def generate_video(
-    name="test_parts.mp4", p_count=800, sprite_dim=27, vid_dim=300, brightness=80,
-    t_delta=0.05, scale=25, center_mag=0.5, repel_mag=0.05, damp=0.997, total_steps=500, steps=4, seed=144):
+    name="test_parts.mp4", p_count=800, 
+    sprite_dim=27, vid_dim=300, brightness=80,
+    t_delta=0.05, scale=25, center_mag=0.5, 
+    repel_mag=0.05, damp=0.997, 
+    total_steps=500, steps=4, seed=144):
   
   key = jax.random.PRNGKey(seed)
   p_state = jax.random.uniform(key, (p_count, 2), minval=-0.5, maxval=0.5)
   v_state = jnp.zeros((p_count, 2))
   sprite_indices = jnp.zeros((p_count,), dtype=int)
-  gaussian_sprites = jnp.tile(gaussian_kern(sprite_dim, 3.0).reshape(1, sprite_dim, sprite_dim, 1), 3) * brightness
+  gaussian_sprites = jnp.tile(
+      gaussian_kern(
+          sprite_dim, 3.0
+      ).reshape(1, sprite_dim, sprite_dim, 1), 3) * brightness
 
-  with media.VideoWriter(name, (vid_dim, vid_dim), crf=30, fps=45) as vw:
+  with media.VideoWriter(
+      name, (vid_dim, vid_dim), crf=30, fps=45) as vw:
+      
     for i in tqdm(range(total_steps)):
       render = fast_scaled_render(
         (p_state * 0.9 + 0.5) * vid_dim,
