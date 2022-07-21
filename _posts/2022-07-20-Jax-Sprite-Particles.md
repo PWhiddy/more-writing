@@ -7,17 +7,17 @@ title: Efficient Sprite Rendering with Jax
 GPUs can crunch numbers orders of magnitudes faster than a CPU. While their original use case was only for graphics, their applications now are constantly growing. A set of tools parallel to those used for computer graphics has been developed for high performance linear algebra and differentiable programming, and these tools actually have a number of useful capabilities that extend out of the scope for which they were designed.  
 
 ### Why write GPU compute code in an ML framework?  
-##### Flexibility  
+#### Flexibility  
 Array abstractions with optimized primitives makes it really fast to prototype and try new ideas.  
 For example to create a shader which subtracts one image from another, sum up all the resulting pixels and execute it, simply do:  
 ```python
 (img_a - img_b).sum()
 ```  
-##### Scalability
+#### Scalability
 Use tools which are regularly scaled up to massive clusters with hundreds of GPUs.  
-##### Portability
+#### Portability
 Run the exact same code on CPU or GPU. Super useful for testing and small experiments.
-##### Ecosystem  
+#### Ecosystem  
 The python / numpy / scipy ecosystem is enormous and spans almost every domain of science. Code for just about anything you might want to do is likely on tap.
 
 ### Why render / rasterize graphics in an ML framework? Reasons above plus:
