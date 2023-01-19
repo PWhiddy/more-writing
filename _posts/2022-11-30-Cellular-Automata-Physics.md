@@ -23,9 +23,10 @@ To link the concept of feynman diagrams and cellular automata consider:
 - Intersections: particle interactions <--> glider interactions
 
 A catalog of gliders:
+  
 ![gliders](https://i.imgur.com/KQkHCp9.png) 
 
-Is similar to a table of particles:
+Is similar to a table of particles:  
 ![gliders](https://i.imgur.com/il3fuyL.png) 
 
 
