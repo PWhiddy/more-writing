@@ -12,7 +12,7 @@ Quantum field theories show that all the particles we know and love aren't reall
 
 If particles are just flucuations of a field, how can they persist in time and move through space? Lets consider conways game of life. It turns out that even in this simple system, particles exist!   
 In the world of cellular automata, particles have been given a different name even though they refer to the exact same concept - gliders (sometimes also called spaceships). Just like particles in physics, these are entites which persist in time and propogate through space.   
-Here's an example:
+Here's an example:  
 ![glider](https://i.imgur.com/m46b89e.gif)  
   
 Just like particles in the real world, gliders can interact with each other. Gliders can bounce off of each other, annihilate with each other, and even create new types of gliders. With so many complex interactions, how can we organize and classify them all? Real life particles also do all of these things, and because physicists care deeply about modeling their interactions, they invented a system to visualize and quantify them. These are called feynman diagrams! 
