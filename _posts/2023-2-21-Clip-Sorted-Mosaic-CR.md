@@ -1,7 +1,7 @@
 ---
 layout: post
 mathjax: true
-title: Creating a CLIP sorted Mosaic from Computerender Images
+title: Creating a CLIP-sorted Mosaic from Computerender Images
 ---
 
 I launched [computerender](https://computerender.com/) at the end of last year, and already its users have generated over 1 million images! 
