@@ -10,4 +10,4 @@ I made some [small modifications to the code](https://github.com/PWhiddy/sp-mosa
   
 Here's the result!  
   
-<iframe src="https://drive.google.com/file/d/1H3VbeRGF3pajI7BhLHSLpL7TCeLJLCrC/preview" width="1280" height="720" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1H3VbeRGF3pajI7BhLHSLpL7TCeLJLCrC/preview" width="640" height="480" allow="autoplay"></iframe>
