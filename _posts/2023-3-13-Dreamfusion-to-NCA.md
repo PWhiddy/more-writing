@@ -4,8 +4,8 @@ mathjax: true
 title: Can Dynamics be Distilled from Models trained on only static 2D images?
 ---
 
-##### This text is mirrored from the readme of this project here:  
-##### [https://github.com/computerender/nca-diffusion](https://github.com/computerender/nca-diffusion)
+This text is mirrored from the readme of this project here:  
+[https://github.com/computerender/nca-diffusion](https://github.com/computerender/nca-diffusion)
 
 --- 
 
