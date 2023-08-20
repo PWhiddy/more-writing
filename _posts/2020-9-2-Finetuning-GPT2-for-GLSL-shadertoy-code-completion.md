@@ -4,9 +4,11 @@ mathjax: false
 title: Finetuning GPT-2 for Shadertoy GLSL Code Completion
 ---
 
-This page is mirrored from the original readme located here:   
-[https://github.com/PWhiddy/shader-gen-serve/](https://github.com/PWhiddy/shader-gen-serve/)
+This page is mirrored from the original readme of the project located here:   
+[https://github.com/PWhiddy/shader-gen-serve/](https://github.com/PWhiddy/shader-gen-serve/)  
   
+---
+
 # Shadertoy Live GLSL Autocomplete
 
 An experiment fine-tuning gpt-2 (small 100M) on a dataset of public shadertoy shaders. The auto generated comments are perhaps more entertaining than the glsl.
