@@ -8,7 +8,7 @@ Last fall, I helped create the design for a large art installation by writing a 
 
 &nbsp;
   
-<video width=640 autoplay muted loop>
+<video width=640 autoplay playsinline muted loop>
   <source src="https://i.imgur.com/7b8yEpP.mp4" type="video/mp4" />
 </video>
 *[Sagmeister's Instagram account](https://www.instagram.com/stefansagmeister/)*  
@@ -19,7 +19,7 @@ Once the code was written, it took only 15 seconds to tile and generate the posi
 
 &nbsp;  
  
-<video width=640 autoplay muted loop>
+<video width=640 autoplay playsinline muted loop>
   <source src="https://i.imgur.com/A0kbqHC.mp4" type="video/mp4" />
 </video>
 *[OZ Art NWA](https://www.instagram.com/ozartnwa/)*  
