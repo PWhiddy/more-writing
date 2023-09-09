@@ -26,6 +26,9 @@ Once the code was written, it took only 15 seconds to tile and generate the posi
 
 &nbsp;
 
+![The original fish illustration](https://i.imgur.com/umVL90T.png)
+*The original fish illustration*
+
 After the mask had been generated and converted to the correct resolution, the core of the code was:
 &nbsp;
 ```python
@@ -88,7 +91,12 @@ for j, col in enumerate(thresh_chunks_mask):
 Full Code:  
 [https://github.com/PWhiddy/fish-project](https://github.com/PWhiddy/fish-project)  
 
-  
+
+<video width=640 autoplay muted loop>
+  <source src="https://i.imgur.com/fVG5n1Y.mp4" type="video/mp4" />
+</video>
+*The generated design*
+
 Cumulatively I only spent a few days iterating on the script, spread across several months. I was not involved in the concept or production work in any way, and after submitting it heard almost nothing until today!  
 &nbsp;  
 The original illustration was created by [Duane Raver](https://www.ourstate.com/duane-raver/), a man who made a career out of illustrating fish. Truly inspiring!  
