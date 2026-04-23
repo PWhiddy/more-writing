@@ -26,6 +26,6 @@ This task is a little tricker than it may seem because almost all code on the in
 - done?
 ```
 
-[Imgur](https://i.imgur.com/JaLWh9A.gifv)
+![10k triangles](https://i.imgur.com/JaLWh9A.gif)
 
 They certainly can't solve problems as hard as the best models, but are capable of simple and useful tasks, which is crazy considering they are like <1% the size. On my 4090 i get ~50 tok/sec. When I bought it a few years ago I wondered if it would be someday capaple of this. I probably would have estimated this with 30% chance at the time, moderately surprising!
